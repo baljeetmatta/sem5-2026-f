@@ -4,8 +4,44 @@ const price=document.querySelector("#price");
 const qty=document.querySelector("#qty");
 const addBtn=document.querySelector("#addBtn");
 const items=document.querySelector("#items");
-let order=[]
+const total=document.querySelector("#total");
+let carts=[]
 let itemno=1;
+let currentCode=-1;
+//localStorage->setItem, getItem
+// localStorage.setItem("data","abc");
+// const result=localStorage.getItem("data");
+// console.log(result);
+
+// localStorage.setItem("data",10);
+// const result=Number(localStorage.getItem("data"));
+
+// console.log(result+1);
+
+ let arr=[1,2,3,4,5];
+// document.write(arr);
+// console.log(arr.join("="));
+// localStorage.setItem("data", arr);
+// const data=localStorage.getItem("data");
+// console.log(data[1]);
+// localStorage.setItem("data", JSON.stringify(arr));
+// const data=JSON.parse( localStorage.getItem("data"));
+// console.log(data);
+
+// let obj={
+//     name:"Test"
+// };
+// document.write(obj);
+// console.log(obj);
+// localStorage.setItem("data",JSON.stringify(obj));
+// const data=JSON.parse(localStorage.getItem("data"));
+// console.log(data);
+
+
+
+
+
+
 
 
 //Products
@@ -18,9 +54,37 @@ const products=[{code:101,name:'Samosa',price:10}
 
 function productAdd()
 {
+        //1. Fetch data from UI
+        //2. Calculation for total Price
+        //3. Create an Object for new Product
+        //4. Array
+        //5. Display the object on UI
+    //1. Fetch data from UI
+         let pCode=code.value;
+    let pPrice=price.value;
+    let pQty=qty.value;
+    //2. Calculation for total Price
+    let totalPrice=pPrice*pQty;
+//3. Create an Object for new Product
+    let cartItem={
+        code:currentCode,
+        name:pCode,
+        price:pPrice,
+        qty:pQty,
+        lineTotal:totalPrice
+    }
+   //console.log(cartItem);
+ //4. Array
+ carts.push(cartItem);
+ setLocalStorage();
+ calculateCart();
+
+ console.log(carts);
+
 
     
-addProduct();
+    addProduct(cartItem);
+
 }
 //Actions
 addBtn.addEventListener("click",()=>{
@@ -47,6 +111,8 @@ code.addEventListener("change",()=>{
         code.focus();
     }
     else{
+        currentCode=code.value;
+
         code.value=selectedProducts[0].name;
         price.value=selectedProducts[0].price;
         qty.focus();
@@ -56,32 +122,57 @@ code.addEventListener("change",()=>{
 })
 
 
-function addProduct(){
+function addProduct(cartItem){
 
-    let pCode=code.value;
-    let pPrice=price.value;
-    let pQty=qty.value;
-    let totalPrice=pPrice*pQty;
-    console.log(totalPrice);
+   
 
     const productRow=document.createElement("tr");
 
     const productCode=document.createElement("td");
-    productCode.innerHTML=pCode;
+    productCode.innerHTML=cartItem.name;
 
     const productPrice=document.createElement("td");
-    productPrice.innerHTML=pPrice;
+    productPrice.innerHTML=cartItem.price;
 
     const productQty=document.createElement("td");
-    productQty.innerHTML=pQty;
+    productQty.innerHTML=cartItem.qty;
 
     const productTotalPrice=document.createElement("td");
-    productTotalPrice.innerHTML=totalPrice;
+    productTotalPrice.innerHTML=cartItem.lineTotal  ;
+
+    const operations=document.createElement("td");
+    const deleteBtn=document.createElement("button");
+    deleteBtn.innerHTML="X";
+    deleteBtn.addEventListener("click",()=>{
+        //1. Array delete
+        //2. UI remove
+
+        //1. Array delete
+
+        carts=carts.filter((item)=>{
+            if(item.code!=cartItem.code)
+                return true;
+
+        })
+        console.log(carts);
+        //2. UI remove
+        productRow.remove();
+        setLocalStorage();
+        calculateCart();
+
+
+
+
+    })
+
+    operations.append(deleteBtn);
 
     productRow.appendChild(productCode);
     productRow.appendChild(productPrice);
     productRow.appendChild(productQty);
     productRow.appendChild(productTotalPrice);
+    productRow.appendChild(operations);
+
     
     items.appendChild(productRow);
 
@@ -130,3 +221,38 @@ function addProduct(){
 
 
 // }
+
+function setLocalStorage()
+{
+    localStorage.setItem("carts",JSON.stringify(carts));
+
+}
+function getLocalStorage()
+{
+    //1. Fetch from localStorage
+    //2. Array carts
+    //3,. UI
+    //1. Fetch from localStorage
+   if(localStorage.getItem("carts"))
+        carts=JSON.parse(localStorage.getItem("carts"));
+
+    //3,. UI
+    carts.forEach((item)=>{
+        addProduct(item);
+
+
+    })
+console.log(carts);
+calculateCart();
+
+}
+getLocalStorage();
+function calculateCart()
+{
+    let cartTotal=0;
+    carts.forEach((item)=>{
+        cartTotal+=item.lineTotal;
+    })
+    total.innerHTML=cartTotal;
+
+}

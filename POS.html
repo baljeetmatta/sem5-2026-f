@@ -4,7 +4,7 @@
         2. UI unique ID
 <div>
         <input type="text" id="code"/>
-        <input type="text" id="price" readonly/>
+        <input type="text" id="price" disabled/>
         <input type="text" id="qty"/>
         <button id="addBtn">+</button>
         <table id="items">
@@ -13,9 +13,11 @@
                 <th>Price</th>
                 <th>Qty</th>
                 <th>Total Price</th>
+                <th></th>
             </tr>
         </table>
         </div>
+        <div>Cart Total: <span id="total"></span></div>
         <script src="./assets/js/pos.js"></script>
     </body>
 </html>
