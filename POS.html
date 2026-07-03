@@ -1,23 +1,52 @@
 <html>
-    <body>
-        1. UI Design<br/>
-        2. UI unique ID
-<div>
-        <input type="text" id="code"/>
-        <input type="text" id="price" disabled/>
-        <input type="text" id="qty"/>
-        <button id="addBtn">+</button>
-        <table id="items">
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total Price</th>
-                <th></th>
-            </tr>
-        </table>
+
+<head>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+
+</head>
+
+<body>
+
+    <div>
+        <div class="flex-class">
+            <div class="left-panel">
+                <input type="text" id="code" />
+                <input type="text" id="price" disabled />
+                <input type="text" id="qty" />
+                <button id="addBtn">+</button>
+               
+                <table id="items">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total Price</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+
+
+
+                <div>
+                    <table>
+                        <tr>
+                            <th>Invoice No.</th>
+                            <th>Dated</th>
+                            <th>Total</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="right-panel"> <h2>Bill Summary</h2>
+                <div>Cart Total: <span id="total"></span></div>
+                <div> <button id="invoiceAdd">INV</button></div>
+            </div>
         </div>
-        <div>Cart Total: <span id="total"></span></div>
         <script src="./assets/js/pos.js"></script>
-    </body>
+</body>
+
 </html>

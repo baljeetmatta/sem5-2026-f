@@ -5,7 +5,12 @@ const qty=document.querySelector("#qty");
 const addBtn=document.querySelector("#addBtn");
 const items=document.querySelector("#items");
 const total=document.querySelector("#total");
+const invoiceAdd=document.querySelector("#invoiceAdd");
+
 let carts=[]
+let invoices=[];
+let invoiceNumber=1;
+
 let itemno=1;
 let currentCode=-1;
 //localStorage->setItem, getItem
@@ -95,6 +100,21 @@ qty.addEventListener("keypress",(e)=>{
   //  console.log(e)
   if(e.key=='Enter')
      productAdd();
+
+})
+invoiceAdd.addEventListener("click",()=>{
+    let invoice={
+        invoiceNumber:invoiceNumber,
+        dated:new Date(),
+
+        totalValue:total.innerText,
+        items:carts
+    }
+    invoices.push(invoice);
+    localStorage.setItem("invoices",JSON.stringify(invoices));
+console.log(invoices);
+
+    invoiceNumber++;
 
 })
 code.addEventListener("change",()=>{
@@ -244,6 +264,11 @@ function getLocalStorage()
     })
 console.log(carts);
 calculateCart();
+if(localStorage.getItem("invoices"))
+    invoices=JSON.parse(localStorage.getItem("invoices"));
+
+console.log(invoices);
+
 
 }
 getLocalStorage();
