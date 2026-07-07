@@ -1,0 +1,44 @@
+header ul {
+    display:inline;
+    list-style:none;
+}
+header li{
+    display:inline;
+}
+header{
+    background-color:rgba(0,0,0,0.6);
+    padding:12px;
+    display:flex;
+    justify-content: space-between;
+}body{
+    margin:0px;
+     font-family: "Roboto"
+}
+nav a{
+    text-decoration:none;
+    color:white;
+}
+nav li{
+     margin-right:10px;
+
+}
+#logo{
+    color:white;
+
+}
+#top-section{
+    background-image:url("../images/background.jpg");
+   background-color:rgba(0  , 0, 0, 0.4);
+   background-blend-mode: multiply;
+
+    background-size:cover;
+
+}
+#heading{
+    margin-left:40px;
+    margin-top:80px;
+    color:white;
+    font-size:30px;
+    text-transform: uppercase;
+
+}
