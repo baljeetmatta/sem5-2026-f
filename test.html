@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <style>
+        .item{
+            border-bottom: 1px solid lightgrey;
+        }
+        #suggestions{
+            width:120px;
+        }
+    </style>
+</head>
+<body>
+<div class="autocomplete">
+ 
+<input type="text" id="city" placeholder="Enter city">
+<div id="suggestions"></div>
+</div>
+
+<button onclick="getWeather()">Get Weather</button>
+
+<div id="result"></div>
+
+<script>
+const apiKey = "53dc97a2d15c3fc0863adb69318002ab";
+
+async function getWeather() {
+    const city = document.getElementById("city");
+    const suggestions = document.getElementById("suggestions")
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}&units=metric`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("City not found");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("result").innerHTML = `
+            <h2>${data.name}, ${data.sys.country}</h2>
+            <p>🌡 Temperature: ${data.main.temp} °C</p>
+            <p>🤗 Feels Like: ${data.main.feels_like} °C</p>
+            <p>💧 Humidity: ${data.main.humidity}%</p>
+            <p>🌬 Wind: ${data.wind.speed} m/s</p>
+            <p>☁ Weather: ${data.weather[0].main}</p>
+            <p>${data.weather[0].description}</p>
+        `;
+    }
+    catch(error) {
+        document.getElementById("result").innerHTML =
+            `<p style="color:red;">${error.message}</p>`;
+    }
+}
+
+if(navigator.geolocation)
+{
+    navigator.geolocation.getCurrentPosition(function(position){
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+    })
+}
+city.addEventListener("input",()=>{
+    searchCities(city.value);
+})
+async function searchCities(query) {
+
+    if(query.length < 3) return;
+
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`;
+
+    const response = await fetch(url);
+    const cities = await response.json();
+    suggestions.innerHTML='';
+
+    cities.forEach((item)=>{
+        const div=document.createElement("div");
+        div.innerHTML=item.name+" ,"+item.country;
+        div.addEventListener("click",()=>{
+            city.value=item.name;
+              suggestions.innerHTML='';
+
+        })
+        div.classList.add("item");
+
+        suggestions.append(div);
+
+
+
+    })
+
+    console.log(cities);
+}
+
+
+</script>
+
+</body>
+</html>

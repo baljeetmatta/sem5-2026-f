@@ -77,22 +77,22 @@ const evenPromise=new Promise((resolve,reject)=>{
 // })
 
 //1. Fetch->then->Structured data(readableStream)
-fetch("https://jsonplaceholder.typicode.com/posts",{
-    method:"GET",
-    body:JSON.stringify(),
-    headers:{
-        "content-type":"application/json"
-    }
+// fetch("https://jsonplaceholder.typicode.com/posts",{
+//     method:"GET",
+//     body:JSON.stringify(),
+//     headers:{
+//         "content-type":"application/json"
+//     }
 
-}).then((data)=>{
-    console.log(data);
-  return  data.json();//promise//json,text ->Promise
+// }).then((data)=>{
+//     console.log(data);
+//   return  data.json();//promise//json,text ->Promise
 
 
-}).then((response)=>{ //ReadableStream->json
+// }).then((response)=>{ //ReadableStream->json
 
-    console.log(response);
-})
+//     console.log(response);
+// })
 
 
 
